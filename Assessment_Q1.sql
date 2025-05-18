@@ -1,22 +1,22 @@
 -- Query to list owners with at least one savings and one investment plan
 -- showing total deposits and counts of each type
 
-SELECT DISTINCT
-  u.id AS owner_id
-  , CONCAT(u.first_name, ' ', u.last_name) AS name
-  , SUM(CASE WHEN p.is_regular_savings = 1 THEN 1 ELSE 0 END) AS savings_count
-  , SUM(CASE WHEN p.is_a_fund = 1 THEN 1 ELSE 0 END) AS investment_count
-  , ROUND(SUM(sa.confirmed_amount) / 100, 2) AS total_deposits
-FROM users_customuser u
-JOIN plans_plan p ON u.id = p.owner_id
-JOIN savings_savingsaccount sa ON sa.plan_id = p.id
-WHERE sa.confirmed_amount > 0
-GROUP BY 
+select distinct
+  u.id as owner_id
+  , concat(u.first_name, ' ', u.last_name) as name
+  , sum(case when p.is_regular_savings = 1 then 1 else 0 end) as savings_count
+  , sum(case when p.is_a_fund = 1 then 1 else 0 end) as investment_count
+  , replace(format(sum(sa.confirmed_amount) / 100, 2), ',', '') as total_deposits
+from users_customuser u
+join plans_plan p on u.id = p.owner_id
+join savings_savingsaccount sa on sa.plan_id = p.id
+where sa.confirmed_amount > 0
+group by 
   u.id
   , u.first_name
   , u.last_name
-HAVING 
-  SUM(CASE WHEN p.is_regular_savings = 1 THEN 1 ELSE 0 END) >= 1
-  AND
-  SUM(CASE WHEN p.is_a_fund = 1 THEN 1 ELSE 0 END) >= 1
-ORDER BY total_deposits DESC;
+having 
+  sum(case when p.is_regular_savings = 1 then 1 else 0 end) >= 1
+  and
+  sum(case when p.is_a_fund = 1 then 1 else 0 end) >= 1
+order by total_deposits desc;

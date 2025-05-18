@@ -1,42 +1,42 @@
-WITH monthly_user_tx AS (
-  SELECT DISTINCT
-    u.id AS owner_id
-    , DATE_FORMAT(sa.transaction_date, '%Y-%m') AS month
-    , COUNT(sa.id) AS monthly_tx_count
-  FROM users_customuser u
-  JOIN savings_savingsaccount sa ON u.id = sa.owner_id
-  GROUP BY 
+with monthly_user_tx as (
+  select distinct
+    u.id as owner_id
+    , date_format(sa.transaction_date, '%y-%m') as month
+    , count(sa.id) as monthly_tx_count
+  from users_customuser u
+  join savings_savingsaccount sa on u.id = sa.owner_id
+  group by 
     u.id
     , month
 ),
 
-avg_tx_per_user AS (
-  SELECT 
+avg_tx_per_user as (
+  select 
     owner_id
-    , AVG(COALESCE(monthly_tx_count, 0)) AS avg_tx_per_month
-  FROM monthly_user_tx
-  GROUP BY 
+    , avg(coalesce(monthly_tx_count, 0)) as avg_tx_per_month
+  from monthly_user_tx
+  group by 
     owner_id
 ),
 
-categorized_users AS (
-  SELECT 
+categorized_users as (
+  select 
     owner_id
     , avg_tx_per_month
-    , CASE
-        WHEN avg_tx_per_month >= 10 THEN 'High Frequency'
-        WHEN avg_tx_per_month BETWEEN 3 AND 9 THEN 'Medium Frequency'
-        ELSE 'Low Frequency'
-     END AS frequency_category
-  FROM avg_tx_per_user
+    , case
+        when avg_tx_per_month >= 10 then 'High Frequency'
+        when avg_tx_per_month between 3 and 9 then 'Medium Frequency'
+        else 'Low Frequency'
+      end as frequency_category
+  from avg_tx_per_user
 )
 
-SELECT 
+select 
   frequency_category
-  , COUNT(*) AS customer_count
-  , ROUND(AVG(avg_tx_per_month), 1) AS avg_transactions_per_month
-FROM categorized_users
-GROUP BY 
+  , count(*) as customer_count
+  , round(avg(avg_tx_per_month), 1) as avg_transactions_per_month
+from categorized_users
+group by 
   frequency_category
-ORDER BY 
-  FIELD(frequency_category, 'High Frequency', 'Medium Frequency', 'Low Frequency');
+order by 
+  field(frequency_category, 'High Frequency', 'Medium Frequency', 'Low Frequency');

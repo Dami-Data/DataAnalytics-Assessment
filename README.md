@@ -1,14 +1,18 @@
 # DataAnalytics-Assessment
-# SQL solutions for Cowryrise Data Analytics Assessment
+# This repository contains SQL solutions to the four Cowrywise Data Analytics assessment tasks.
+Each query is saved in its own file (`Assessment_Q1.sql`, `Assessment_Q2.sql`, `Assessment_Q3.sql`,`Assessment_Q4.sql`).
+# use adashi_staging as Database
 Q1: High-Value Customers with Multiple Products
 # Approach
-The goal was to identify customers who have at least one funded savings plan and at least one funded investment plan, then sort them by total deposits.
+The goal is to identify customers who have at least one funded savings plan and at least one funded investment plan, then sort them by total deposits.
 - I joined the users_customuser table to the plans_plan table on the user ID to link customers with their plans.
 - Then, I joined the savings_savingsaccount table on the plan ID to access transactional data (confirmed deposits).
 - Using SUM(CASE WHEN ...), I counted how many savings plans (is_regular_savings = 1) and investment plans (is_a_fund = 1) each customer had.
 - I filtered only plans with deposits greater than zero.
 - The HAVING clause ensured the user had at least one savings plan and one investment plan.
 - Finally, I sorted customers by total deposits converted from kobo to naira for easier reading.
+# Challenges
+- None encountered.
 
 Q2: Transaction Frequency Analysis
 # Approach Explanation
@@ -27,5 +31,29 @@ Q2: Transaction Frequency Analysis
 - Using a LEFT JOIN resulted in more users being categorized as "Low Frequency" because it included months where users had no transactions (nulls), lowering their average transaction count.
 - Ultimately, I chose INNER JOIN because it aligns with the goal to analyze actual transaction activity rather than including inactive months where users did not transact at all.
 
+Question 3: Account Inactivity Alert
+The goal is to Identify all active accounts (either savings or investments) with no inflow transactions in the last 365 days. This helps the operations team flag potentially dormant accounts.
+# Approach
+- I queried the plans_plan and savings_savingsaccount tables.
+- Used MAX(transaction_date) to get the last transaction date for each plan.
+- Calculated inactivity days using DATEDIFF(CURRENT_DATE, last_transaction_date).
+- Filtered for records where inactivity is greater than or equal to 365 days.
+- Ensured the output contains only relevant columns like plan_id, owner_id, type, last_transaction_date, and inactivity_days.
+- Formatted last_transaction_date as YYYY-MM-DD (without time).
+# Challenges
+- None encountered.
 
+Question 4: Customer Lifetime Value (CLV) Estimation
+The goal is to estimate each customer’s lifetime value based on account tenure and transaction volume using a simplified CLV model.
+# Approach
+- i queried the users_customuser (for customer info and signup date) and the savings_savingsaccount (for transaction records) and joined on owner_id
+- Calculated account tenure using timestampdiff(month, date_joined, current_date).
+- Aggregated total transactions per user.
+- Applied the CLV formula with a fixed profit rate of 0.1%.
+- Formatted the result to always show two decimal places without commas.
+# Challenges and Resolutions
+- Ensuring CLV values always display in two decimal places (e.g., 15000.00 vs 15000) and resolved using replace(format(...), ',', '').
+
+# SQL Style Guide
+Queries in this repository follow the Brooklyn Data Co SQL Style Guide for readability and consistency.
 
