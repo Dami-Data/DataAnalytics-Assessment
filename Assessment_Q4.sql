@@ -1,6 +1,6 @@
 -- Customer Lifetime Value (CLV) Estimation
 -- Profit per transaction assumed as 0.1% of transaction value
-
+use adashi_staging;
 with user_tx as (
   select 
     u.id as customer_id
