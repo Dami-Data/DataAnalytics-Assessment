@@ -1,3 +1,4 @@
+use adashi_staging;
 with last_tx as (
   select 
     p.id as plan_id
