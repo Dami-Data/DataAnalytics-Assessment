@@ -32,8 +32,8 @@ Q2: Transaction Frequency Analysis
 - Ultimately, I chose inner join because it aligns with the goal to analyze actual transaction activity rather than including inactive months where users did not transact at all.
 
 Question 3: Account Inactivity Alert
-The goal is to Identify all active accounts (either savings or investments) with no inflow transactions in the last 365 days. This helps the operations team flag potentially dormant accounts.
 # Approach
+The goal is to Identify all active accounts (either savings or investments) with no inflow transactions in the last 365 days. This helps the operations team flag potentially dormant accounts.
 - I queried the plans_plan and savings_savingsaccount tables.
 - Used max(transaction_date) to get the last transaction date for each plan.
 - Calculated inactivity days using datediff(current_date, last_transaction_date).
@@ -44,8 +44,8 @@ The goal is to Identify all active accounts (either savings or investments) with
 - None encountered.
 
 Question 4: Customer Lifetime Value (CLV) Estimation
-The goal is to estimate each customer’s lifetime value based on account tenure and transaction volume using a simplified CLV model.
 # Approach
+The goal is to estimate each customer’s lifetime value based on account tenure and transaction volume using a simplified CLV model.
 - i queried the users_customuser (for customer info and signup date) and the savings_savingsaccount (for transaction records) and joined on owner_id
 - Calculated account tenure using timestampdiff(month, date_joined, current_date).
 - Aggregated total transactions per user.
@@ -55,5 +55,5 @@ The goal is to estimate each customer’s lifetime value based on account tenure
 - Ensuring CLV values always display in two decimal places (e.g., 15000.00 vs 15000) and resolved using replace(format(...), ',', '').
 
 # SQL Style Guide
-Queries in this repository follow the Brooklyn Data Co SQL Style Guide for readability and consistency.
+Queries in this repository follow the [Brooklyn Data Co SQL Style Guide](https://github.com/brooklyn-data/co/blob/main/sql_style_guide.md) for readability and consistency.
 
