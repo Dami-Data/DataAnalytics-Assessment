@@ -1,6 +1,6 @@
 -- Query to list owners with at least one savings and one investment plan
 -- showing total deposits and counts of each type
-
+use adashi_staging;
 select distinct
   u.id as owner_id
   , concat(u.first_name, ' ', u.last_name) as name
