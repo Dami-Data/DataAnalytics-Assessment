@@ -1,7 +1,7 @@
 # DataAnalytics-Assessment
 # This repository contains SQL solutions to the four Cowrywise Data Analytics assessment tasks.
 Each query is saved in its own file (`Assessment_Q1.sql`, `Assessment_Q2.sql`, `Assessment_Q3.sql`,`Assessment_Q4.sql`).
-# use adashi_staging as Database
+# use adashi_staging;
 Q1: High-Value Customers with Multiple Products
 # Approach
 The goal is to identify customers who have at least one funded savings plan and at least one funded investment plan, then sort them by total deposits.
