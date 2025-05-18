@@ -7,9 +7,9 @@ Q1: High-Value Customers with Multiple Products
 The goal is to identify customers who have at least one funded savings plan and at least one funded investment plan, then sort them by total deposits.
 - I joined the users_customuser table to the plans_plan table on the user ID to link customers with their plans.
 - Then, I joined the savings_savingsaccount table on the plan ID to access transactional data (confirmed deposits).
-- Using SUM(CASE WHEN ...), I counted how many savings plans (is_regular_savings = 1) and investment plans (is_a_fund = 1) each customer had.
+- Using sum(case when ...), I counted how many savings plans (is_regular_savings = 1) and investment plans (is_a_fund = 1) each customer had.
 - I filtered only plans with deposits greater than zero.
-- The HAVING clause ensured the user had at least one savings plan and one investment plan.
+- The having clause ensured the user had at least one savings plan and one investment plan.
 - Finally, I sorted customers by total deposits converted from kobo to naira for easier reading.
 # Challenges
 - None encountered.
@@ -23,23 +23,23 @@ Q2: Transaction Frequency Analysis
 - Medium Frequency: 3 to 9 transactions/month
 - Low Frequency: 2 or fewer transactions/month
 - Finally, I aggregated the count of users in each category and the average transactions per month for that category.
-- The output is ordered explicitly to show categories in the order: High, Medium, Low frequency.
+- The output is ordered explicitly to show categories in the order: High, Medium and Low frequency.
 # Challenges and Resolutions
-- Ensuring the average calculation accounts for months with zero transactions was a consideration. I used COALESCE(monthly_tx_count, 0) in   the average calculation to safely handle any nulls.
-- Deciding whether to use COUNT(sa.id) vs COUNT(*) or COUNT(u.id) — I chose COUNT(sa.id) to count all transactions accurately.
-- I considered using a LEFT JOIN to include users who might have months with zero transactions. However, since the task focuses on calculating the average number of transactions per customer per month, I decided to use an INNER JOIN (regular JOIN) to only include users with at least one transaction.
-- Using a LEFT JOIN resulted in more users being categorized as "Low Frequency" because it included months where users had no transactions (nulls), lowering their average transaction count.
-- Ultimately, I chose INNER JOIN because it aligns with the goal to analyze actual transaction activity rather than including inactive months where users did not transact at all.
+- Ensuring the average calculation accounts for months with zero transactions was a consideration. I used coalesce(monthly_tx_count, 0) in   the average calculation to safely handle any nulls.
+- Deciding whether to use count(sa.id) vs count(*) or count(u.id) — i chose count(sa.id) to count all transactions accurately.
+- I considered using a left join to include users who might have months with zero transactions. However, since the task focuses on calculating the average number of transactions per customer per month, I decided to use an inner join (regular join) to only include users with at least one transaction.
+- Using a left join resulted in more users being categorized as "Low Frequency" because it included months where users had no transactions (nulls), lowering their average transaction count.
+- Ultimately, I chose inner join because it aligns with the goal to analyze actual transaction activity rather than including inactive months where users did not transact at all.
 
 Question 3: Account Inactivity Alert
 The goal is to Identify all active accounts (either savings or investments) with no inflow transactions in the last 365 days. This helps the operations team flag potentially dormant accounts.
 # Approach
 - I queried the plans_plan and savings_savingsaccount tables.
-- Used MAX(transaction_date) to get the last transaction date for each plan.
-- Calculated inactivity days using DATEDIFF(CURRENT_DATE, last_transaction_date).
+- Used max(transaction_date) to get the last transaction date for each plan.
+- Calculated inactivity days using datediff(current_date, last_transaction_date).
 - Filtered for records where inactivity is greater than or equal to 365 days.
 - Ensured the output contains only relevant columns like plan_id, owner_id, type, last_transaction_date, and inactivity_days.
-- Formatted last_transaction_date as YYYY-MM-DD (without time).
+- Formatted last_transaction_date as yyyy-mm-dd (without time).
 # Challenges
 - None encountered.
 
