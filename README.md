@@ -10,7 +10,7 @@ I filtered only plans with deposits greater than zero.
 The HAVING clause ensured the user had at least one savings plan and one investment plan.
 Finally, I sorted customers by total deposits converted from kobo to naira for easier reading.
 
-Q1: Transaction Frequency Analysis
+Q2: Transaction Frequency Analysis
 # Approach Explanation
 First, I calculated the number of transactions per user per month by joining the users_customuser and savings_savingsaccount tables, grouping by user and month.
 Then, I calculated the average monthly transaction count per user using an aggregate average.
