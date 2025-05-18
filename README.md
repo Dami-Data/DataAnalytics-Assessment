@@ -1,2 +1,3 @@
 # DataAnalytics-Assessment
-Cowryrise Data Analytics Test
+SQL solutions for Cowryrise Data Analytics Assessment
+
