@@ -1,5 +1,5 @@
 # DataAnalytics-Assessment
-# This repository contains SQL solutions to the four Cowrywise Data Analytics assessment tasks.
+# This repository contains SQL solutions to the four Cowryrise Data Analytics assessment tasks.
 Each query is saved in its own file (`Assessment_Q1.sql`, `Assessment_Q2.sql`, `Assessment_Q3.sql`,`Assessment_Q4.sql`).
 # use adashi_staging as Database
 Q1: High-Value Customers with Multiple Products
