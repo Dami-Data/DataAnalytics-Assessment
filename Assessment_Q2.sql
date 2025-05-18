@@ -1,3 +1,4 @@
+use adashi_staging;
 with monthly_user_tx as (
   select distinct
     u.id as owner_id
